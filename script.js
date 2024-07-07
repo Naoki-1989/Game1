@@ -244,6 +244,14 @@ canvas.addEventListener('mousemove', (e) => {
     currentFruit.x = e.clientX - rect.left;
 });
 
+canvas.addEventListener('touchmove', (e) => {
+    if (!currentFruit || currentFruit.stopped) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    currentFruit.x = touch.clientX - rect.left;
+});
+
 document.addEventListener('keydown', (e) => {
     if (!currentFruit || currentFruit.stopped) return;
 
@@ -269,6 +277,18 @@ canvas.addEventListener('mousedown', () => {
 });
 
 canvas.addEventListener('mouseup', () => {
+    if (currentFruit) {
+        currentFruit.dy = getFallSpeed(); // 通常速度に戻す
+    }
+});
+
+canvas.addEventListener('touchstart', () => {
+    if (currentFruit) {
+        currentFruit.dy = getFallSpeed() + 3; // スピードアップ
+    }
+});
+
+canvas.addEventListener('touchend', () => {
     if (currentFruit) {
         currentFruit.dy = getFallSpeed(); // 通常速度に戻す
     }
